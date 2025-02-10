@@ -1,0 +1,18 @@
+[package]
+name = "clob"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+alloy = { version = "0.9.2", features = [ "full" ] }
+alloy-signer-local = { version = "0.9.2", features = [ "eip712" ] }
+base64 = "0.22.1"
+chrono = "0.4.38"
+hmac = "0.12.1"
+rand = "0.8.5"
+reqwest = "0.12.9"
+serde = "1.0.215"
+serde_json = "1.0.133"
+thiserror = "2.0.4"
+tokio = { version = "1.42.0", features = [ "full" ] }
+tracing = "0.1.41"
