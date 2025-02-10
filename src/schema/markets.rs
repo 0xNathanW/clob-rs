@@ -1,5 +1,4 @@
 use serde::Deserialize;
-use chrono::{DateTime, Utc};
 
 // Where T is the type of the market.
 #[derive(Debug, Deserialize)]

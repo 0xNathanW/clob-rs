@@ -15,5 +15,3 @@ A PolyMarket CLOB API client in rust.
 - 'SIG_TYPE': signature type, 1 for EOA, 2 for PolyProxy, 3 for PolyGnosisSafe.
 
 All endpoint methods use the `pub async fn request<T: serde::de::DeserializeOwned + std::fmt::Debug>(&self, args: RequestArgs<'_>) -> Result<T>` function.  Therefore future or changed endpoints can be accessed easily.
-
-Find example usage in the Examples directory.
