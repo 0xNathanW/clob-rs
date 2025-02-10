@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use alloy::{sol, primitives::U256};
 use serde::{Serializer, Serialize, Deserialize};
-use crate::error::OrderError;
 
 // Intermediate order struct.
 sol! {
@@ -88,18 +87,6 @@ pub struct OrderResponse {
     pub status:             String,
     pub making_amount:      String,
     pub taking_amount:      String,
-}
-
-impl OrderResponse {
-    pub fn check_success(&self) -> Result<(), OrderError> {
-        if !self.success {
-            Err(OrderError::ServerSideError(self.error_msg.clone()))
-        } else if !self.error_msg.is_empty() {
-            Err(OrderError::ClientSideError(self.error_msg.clone()))
-        } else {
-            Ok(())
-        }
-    }
 }
 
 #[derive(Debug, Deserialize)]

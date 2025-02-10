@@ -20,7 +20,6 @@ pub enum Error {
     #[error("invalid proxy address")]
     InvalidProxyAddress,
 
-    
     #[error("environment variable error: {0}")]
     EnvVariableError(#[from] std::env::VarError),
 
@@ -50,29 +49,7 @@ pub enum Error {
 
     #[error("API key deletion failed")]
     ApiKeyDeleteFailed,
-}
-
-// API responds with an error to order request.
-#[derive(Error, Debug)]
-pub enum OrderError {
     
-    #[error("server side error: {0}")]
-    ServerSideError(String),
-
-    #[error("client side error: {0}")]
-    ClientSideError(String),
 }
 
-#[derive(Error, Debug)]
-pub enum MarketError {
-    
-    #[error("{0} token not found")]
-    TokenNotFound(String),
-
-    #[error("asset id could not be parsed to U256")]
-    InvalidAssetId,
-
-    #[error("could not parse date: {0}")]
-    InvalidDate(String),
-}
 

@@ -28,7 +28,7 @@ impl ApiCreds {
 }
 
 #[derive(Debug, Clone)]
-struct RequestArgs<'a> {
+pub struct RequestArgs<'a> {
     pub method:     reqwest::Method,
     pub path:       &'a str,
     pub queries:    Option<&'a [(&'a str, &'a str)]>,
@@ -37,7 +37,7 @@ struct RequestArgs<'a> {
 }
 
 #[derive(Debug, Clone, Copy)]
-enum AuthLevel {
+pub enum AuthLevel {
     None,
     // Private key authentication.
     L1 {
@@ -135,7 +135,7 @@ impl ClobClient {
     }
 
     #[tracing::instrument(skip(self))]
-    async fn request<T: serde::de::DeserializeOwned + std::fmt::Debug>(&self, args: RequestArgs<'_>) -> Result<T> {
+    pub async fn request<T: serde::de::DeserializeOwned + std::fmt::Debug>(&self, args: RequestArgs<'_>) -> Result<T> {
         
         let headers = match args.auth_level {
             AuthLevel::None => None,

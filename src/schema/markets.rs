@@ -1,6 +1,5 @@
 use serde::Deserialize;
 use chrono::{DateTime, Utc};
-use crate::error::MarketError;
 
 // Where T is the type of the market.
 #[derive(Debug, Deserialize)]
@@ -88,61 +87,6 @@ pub struct Rates {
     pub asset_address:      String,
     pub rewards_daily_rate: f64,
 }
-
-impl Market {
-
-    pub fn is_active(&self) -> bool {
-        self.active && !self.closed && !self.archived && self.accepting_orders
-    }
-
-    pub fn yes_asset_id(&self) -> Result<&String, MarketError> {
-        self.tokens
-            .iter()
-            .find(|t| t.outcome.to_lowercase() == "yes")
-            .ok_or(MarketError::TokenNotFound("yes".to_string()))
-            .map(|t| &t.token_id)
-    }
-
-    pub fn no_asset_id(&self) -> Result<&String, MarketError> {
-        self.tokens
-            .iter()
-            .find(|t| t.outcome.to_lowercase() == "no")
-            .ok_or(MarketError::TokenNotFound("no".to_string()))
-            .map(|t| &t.token_id)
-    }
-
-    pub fn min_order_size(&self) -> u32 {
-        self.minimum_order_size * 100
-    }
-
-    // 0.1 -> 100, 0.01 -> 10, 0.001 -> 1
-    pub fn min_tick_size(&self) -> u32 {
-        let ts: u32 = (self.minimum_tick_size * 1000.0 + 0.5) as u32;
-        debug_assert!(ts == 1 || ts == 10 || ts == 100);
-        ts
-    }
-
-    pub fn end_date_utc(&self) -> Option<Result<DateTime<Utc>, MarketError>> {
-        self.end_date_iso
-            .as_ref()
-            .map(|s| s.parse::<DateTime<Utc>>().map_err(|_| MarketError::InvalidDate(s.clone())))
-    }
-
-    pub fn game_start_time_utc(&self) -> Option<Result<DateTime<Utc>, MarketError>> {
-        self.game_start_time
-            .as_ref()
-            .map(|s| s.parse::<DateTime<Utc>>().map_err(|_| MarketError::InvalidDate(s.clone())))
-    }
-
-    pub fn rewards_min_size(&self) -> u32 {
-        self.rewards.min_size * 100
-    }
-
-    pub fn rewards_max_spread(&self) -> u32 {
-        (self.rewards.max_spread * 10.0) as u32
-    }
-}
-
 
 #[derive(Debug, Deserialize)]
 pub struct Orderbook {
